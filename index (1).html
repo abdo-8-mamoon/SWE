@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Engineering — MCQ Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #f0eeea;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.13);
+    --accent: #2563eb;
+    --accent2: #7c3aed;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --green-border: #bbf7d0;
+    --green-text: #15803d;
+    --red: #dc2626;
+    --red-bg: #fff1f2;
+    --red-border: #fecdd3;
+    --red-text: #b91c1c;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --l1: #2563eb;
+    --l2: #7c3aed;
+    --l3: #0891b2;
+    --l4: #d97706;
+    --l5: #db2777;
+    --l6: #059669;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 10% 0%, rgba(37,99,235,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 90% 100%, rgba(124,58,237,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Header */
+  .header {
+    position: relative;
+    z-index: 2;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    padding: 3rem 1rem 2.2rem;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 100px;
+    padding: 5px 18px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 1.1rem;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 500;
+  }
+
+  .header h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+  }
+
+  .header h1 span {
+    color: var(--accent);
+  }
+
+  .header p {
+    color: var(--muted);
+    font-size: 15px;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  /* Scoreboard */
+  .scoreboard {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+  }
+
+  .score-stats {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .stat-num {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .stat-num.blue { color: var(--accent); }
+  .stat-num.green { color: var(--green); }
+  .stat-num.red { color: var(--red); }
+
+  .progress-wrap {
+    flex: 1;
+    max-width: 280px;
+  }
+
+  .progress-bar {
+    height: 7px;
+    background: #e5e7eb;
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 100px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    text-align: center;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover {
+    border-color: #fca5a5;
+    color: var(--red);
+    background: var(--red-bg);
+  }
+
+  /* Content */
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+
+  /* Lecture section */
+  .lecture-section { margin-bottom: 2.5rem; }
+
+  .lecture-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .lecture-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .lecture-name {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .lecture-count {
+    margin-right: auto;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  /* Question card */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .q-card:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .q-card.answered-correct {
+    border-color: #86efac;
+    background: #f0fdf4;
+  }
+
+  .q-card.answered-wrong {
+    border-color: #fca5a5;
+    background: #fff5f5;
+  }
+
+  .q-num {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 7px;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .q-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  @media (max-width: 560px) {
+    .options { grid-template-columns: 1fr; }
+    .score-stats { gap: 0.8rem; }
+    .stat-num { font-size: 16px; }
+    .scoreboard { padding: 0.7rem 1rem; }
+  }
+
+  .opt-btn {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 13.5px;
+    font-family: 'Cairo', sans-serif;
+    color: #374151;
+    cursor: pointer;
+    text-align: right;
+    transition: all 0.15s;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .opt-label {
+    background: rgba(0,0,0,0.06);
+    border-radius: 5px;
+    padding: 1px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: var(--accent);
+  }
+
+  .opt-btn:hover:not(:disabled) .opt-label {
+    background: #dbeafe;
+    color: var(--accent);
+  }
+
+  .opt-btn:disabled { cursor: default; }
+
+  .opt-btn.correct {
+    background: var(--green-bg);
+    border-color: #4ade80;
+    color: var(--green-text);
+  }
+
+  .opt-btn.correct .opt-label {
+    background: #dcfce7;
+    color: var(--green-text);
+  }
+
+  .opt-btn.wrong {
+    background: var(--red-bg);
+    border-color: #f87171;
+    color: var(--red-text);
+  }
+
+  .opt-btn.wrong .opt-label {
+    background: #fee2e2;
+    color: var(--red-text);
+  }
+
+  .feedback {
+    margin-top: 10px;
+    font-size: 13.5px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .feedback.ok {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    color: var(--green-text);
+    display: flex;
+  }
+
+  .feedback.no {
+    background: var(--red-bg);
+    border: 1px solid var(--red-border);
+    color: var(--red-text);
+    display: flex;
+  }
+
+  .fb-icon { font-size: 15px; flex-shrink: 0; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    font-family: 'Tajawal', sans-serif;
+    background: var(--surface);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-card { animation: fadeUp 0.25s ease both; }
+
+  @keyframes pop-green {
+    0%   { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
+    70%  { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+    100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+  }
+
+  .opt-btn.correct { animation: pop-green 0.45s ease-out; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-badge">📚 Software Engineering</div>
+  <h1>MCQ <span>Question Bank</span></h1>
+  <p>اختر الإجابة — هتعرف على طول صح ✓ أو غلط ✗</p>
+</header>
+
+<div class="scoreboard">
+  <div class="score-stats">
+    <div class="stat">
+      <span class="stat-num blue" id="s-answered">0</span>
+      <span class="stat-label">تم الإجابة</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num green" id="s-correct">0</span>
+      <span class="stat-label">صح</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num red" id="s-wrong">0</span>
+      <span class="stat-label">غلط</span>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label" id="progress-label">0 / 100</div>
+  </div>
+  <button class="reset-btn" onclick="resetAll()">↺ إعادة</button>
+</div>
+
+<div class="content" id="content"></div>
+
+<footer class="footer">Software Engineering MCQ Bank &nbsp;·&nbsp; Lectures 1–6 &nbsp;·&nbsp; 100 سؤال</footer>
+
+<script>
+const LABELS = ["A","B","C","D"];
+const LECTURE_COLORS = {
+  "Lecture 1": "#2563eb",
+  "Lecture 2": "#7c3aed",
+  "Lecture 3": "#0891b2",
+  "Lecture 4": "#d97706",
+  "Lecture 5": "#db2777",
+  "Lecture 6": "#059669"
+};
+
+const questions = [
+  {l:"Lecture 1",q:"Which of the following best defines Software Engineering?",opts:["Writing code only","Designing and building software systematically","Using any programming language to solve problems","Debugging software after release"],a:1},
+  {l:"Lecture 1",q:"A program becomes a software product when it includes:",opts:["Documentation and licensing","Debugging and testing","Only user manuals","Hardware support"],a:0},
+  {l:"Lecture 1",q:"Which of the following is NOT a dual role of software?",opts:["As a product","As a vehicle for delivering a product","As a replacement for hardware","As an information transformer"],a:2},
+  {l:"Lecture 1",q:"Which is NOT part of the Software Process?",opts:["Specification","Development","Validation","Hardware fabrication"],a:3},
+  {l:"Lecture 1",q:"In the Software Process, validation ensures:",opts:["Software is bug-free","Software meets customer requirements","Software has good UI design","Software is always reusable"],a:1},
+  {l:"Lecture 1",q:"Software evolution means:",opts:["Software adapts to changing requirements","Creating new hardware","Replacing software with a new system","Reducing testing activities"],a:0},
+  {l:"Lecture 1",q:"Which of these is a key principle of software engineering?",opts:["Random coding","Modularity","Ignoring abstraction","Removing testing"],a:1},
+  {l:"Lecture 1",q:"Hiding implementation details while exposing functionality is:",opts:["Encapsulation","Abstraction","Reusability","Modularity"],a:1},
+  {l:"Lecture 1",q:"Which attribute ensures software can be modified easily?",opts:["Efficiency","Reliability","Maintainability","Portability"],a:2},
+  {l:"Lecture 1",q:"A software module that can be reused across projects promotes:",opts:["Efficiency","Reusability","Correctness","Interoperability"],a:1},
+  {l:"Lecture 1",q:"Which objective ensures that software produces consistent results over time?",opts:["Reliability","Portability","Adaptability","Correctness"],a:0},
+  {l:"Lecture 1",q:"Moving software from Windows to Linux is an example of:",opts:["Testability","Portability","Interoperability","Adaptability"],a:1},
+  {l:"Lecture 1",q:"The ability of two systems to exchange and process data cooperatively is:",opts:["Maintainability","Reliability","Interoperability","Efficiency"],a:2},
+  {l:"Lecture 1",q:"Which of the following is NOT a career in software engineering?",opts:["Cloud Engineer","Quality Assurance Engineer","Front-End Developer","Civil Engineer"],a:3},
+  {l:"Lecture 1",q:"Which task involves checking code written by peers?",opts:["Debugging","Code Review","Documentation","Maintenance"],a:1},
+  {l:"Lecture 1",q:"Writing clear API documentation is part of:",opts:["Requirement Analysis","Maintenance","Documentation","Testing"],a:2},
+  {l:"Lecture 1",q:"Which skill is an example of a soft skill for software engineers?",opts:["Object-Oriented Design","Coding","Problem-solving","Software Testing"],a:2},
+  {l:"Lecture 1",q:"Which advantage of software engineering ensures cost savings?",opts:["Increased complexity","Reduced costs","Bureaucratic processes","High learning curve"],a:1},
+  {l:"Lecture 1",q:"Agile methodologies mainly focus on:",opts:["Heavy documentation","Customer satisfaction and flexibility","One-time delivery","Eliminating testing"],a:1},
+  {l:"Lecture 1",q:"Which is a disadvantage of software engineering?",opts:["Better scalability","High upfront costs","Increased customer satisfaction","Better collaboration"],a:1},
+  {l:"Lecture 2",q:"What is the primary goal of SDLC?",opts:["To increase project costs","To deliver high-quality, maintainable software that meets user needs","To eliminate documentation","To shorten development time only"],a:1},
+  {l:"Lecture 2",q:"How many main stages are there in the SDLC process?",opts:["4","5","6","7"],a:2},
+  {l:"Lecture 2",q:"What is the main objective of the Planning and Requirement Analysis phase?",opts:["To design system architecture","To collect and analyze customer requirements","To test the software","To prepare documentation only"],a:1},
+  {l:"Lecture 2",q:"Which document is created during the Defining Requirements stage?",opts:["DRS","DDS","SRS","QRS"],a:2},
+  {l:"Lecture 2",q:"What does the Design Document Specification (DDS) provide?",opts:["Source code for testing","A detailed architecture of the software","Market analysis report","System error logs"],a:1},
+  {l:"Lecture 2",q:"Which of the following tools is NOT used in the Developing Product stage?",opts:["Compiler","Interpreter","Debugger","Manual Testing"],a:3},
+  {l:"Lecture 2",q:"When is testing performed in SDLC?",opts:["Only at the end","After deployment","At every stage","Only after coding"],a:2},
+  {l:"Lecture 2",q:"The main goal of Testing and Integration phase is to:",opts:["Prepare the project plan","Ensure the software meets quality and SRS requirements","Collect user feedback","Write code modules"],a:1},
+  {l:"Lecture 2",q:"What happens during Deployment and Maintenance?",opts:["Requirements defined","Software released and maintained","Code compiled","Database designed"],a:1},
+  {l:"Lecture 2",q:"Which is NOT an SDLC model?",opts:["Spiral","Prototyping","Waterfall","Capability Maturity Model"],a:3},
+  {l:"Lecture 2",q:"The V-Model in SDLC is also known as the:",opts:["Rapid Prototyping Model","Verification and Validation Model","Value Chain Model","Virtual Model"],a:1},
+  {l:"Lecture 2",q:"Which model combines iterative and waterfall features?",opts:["Agile","Spiral","V-Model","Incremental"],a:1},
+  {l:"Lecture 2",q:"The Agile model is based on which principle?",opts:["Sequential development","Iterative and incremental with feedback","Entire product at once","No customer involvement"],a:1},
+  {l:"Lecture 2",q:"In the Agile model, each iteration is typically completed within:",opts:["2–3 months","2–3 weeks","6–8 weeks","1 year"],a:1},
+  {l:"Lecture 2",q:"The Incremental Model develops software:",opts:["In a single phase","In multiple builds or modules","Without feedback","Without testing"],a:1},
+  {l:"Lecture 2",q:"The RAD model focuses on:",opts:["Code reuse, tools, and quick development","Long documentation","Only front-end design","Ignoring feedback"],a:0},
+  {l:"Lecture 2",q:"Which model was created to overcome Waterfall drawbacks?",opts:["Incremental","Prototype","Iterative","Spiral"],a:2},
+  {l:"Lecture 2",q:"Major disadvantage of the Prototype Model?",opts:["Too slow","Expensive if users reject prototypes","No feedback","No design phase"],a:1},
+  {l:"Lecture 2",q:"Main advantage of the Spiral Model?",opts:["Handles project risks effectively","Reduces testing","Ignores feedback","One loop only"],a:0},
+  {l:"Lecture 2",q:"Why are companies shifting to Agile?",opts:["Reduce customer involvement","Flexibility, faster delivery, feedback","Eliminate testing","Replace iteration"],a:1},
+  {l:"Lecture 3",q:"The Waterfall Model is best described as:",opts:["Adaptive and feedback-based","Iterative and flexible","Linear and sequential","Incremental and cyclical"],a:2},
+  {l:"Lecture 3",q:"Who introduced the Waterfall Model?",opts:["Barry Boehm","Winston Royce","Alan Turing","Fred Brooks"],a:1},
+  {l:"Lecture 3",q:"The Waterfall Model works best when requirements are:",opts:["Vague and changing","Stable and clear","Undefined","User-driven"],a:1},
+  {l:"Lecture 3",q:"The main output of the Requirements phase is:",opts:["Code modules","Test plan","SRS","SDD"],a:2},
+  {l:"Lecture 3",q:"System structure and architecture are defined in which phase?",opts:["Design","Coding","Testing","Maintenance"],a:0},
+  {l:"Lecture 3",q:"High-Level Design mainly focuses on:",opts:["Algorithms","Architecture","Data flow","Syntax"],a:1},
+  {l:"Lecture 3",q:"The primary goal of the Development phase is to:",opts:["Write source code","Collect requirements","Test integration","Create prototypes"],a:0},
+  {l:"Lecture 3",q:"The correct order of Waterfall phases is:",opts:["Design → Testing → Development → Maintenance","Requirements → Design → Development → Testing → Maintenance","Development → Testing → Requirements → Design","Requirements → Implementation → Design → Testing → Maintenance"],a:1},
+  {l:"Lecture 3",q:"Which testing is done by developers?",opts:["Beta","Alpha","Acceptance","Integration"],a:1},
+  {l:"Lecture 3",q:"Which statement about Maintenance is incorrect?",opts:["It consumes most project effort","It includes adaptive updates","It stops after deployment","It fixes post-release issues"],a:2},
+  {l:"Lecture 3",q:"Changing software to fit a new OS is called:",opts:["Adaptive","Perfective","Corrective","Preventive"],a:0},
+  {l:"Lecture 3",q:"A major drawback of the Waterfall Model is:",opts:["Rigid structure","Simple process","Clear milestones","Strong documentation"],a:0},
+  {l:"Lecture 3",q:"The main issue with testing in Waterfall is that it:",opts:["Starts too late","Runs too early","Occurs twice","Lacks feedback"],a:0},
+  {l:"Lecture 3",q:"Waterfall is least suitable when:",opts:["Scope is fixed","Needs are changing","Design is stable","Risks are low"],a:1},
+  {l:"Lecture 3",q:"Quality is ensured through:",opts:["Iteration","Documentation","Testing each stage","Repetition"],a:2},
+  {l:"Lecture 3",q:"The Waterfall Model is called 'document-driven' because:",opts:["It ignores feedback","It has minimal writing for each phase","Each phase produces records","It repeats documentation"],a:2},
+  {l:"Lecture 3",q:"Security design for an online banking system is done in:",opts:["Analysis","Design","Testing","Coding"],a:1},
+  {l:"Lecture 3",q:"A strength of the Waterfall Model is:",opts:["Clear phases","Flexibility","Iteration","Rapid changes"],a:0},
+  {l:"Lecture 3",q:"The model suits which type of project?",opts:["Small, clear systems","Research prototypes","Rapid applications","Evolving systems"],a:0},
+  {l:"Lecture 3",q:"A key difference between Waterfall and Agile is that Waterfall:",opts:["Is iterative","Has feedback loops","Is sequential","Uses sprints"],a:2},
+  {l:"Lecture 4",q:"What is the primary goal of Agile Software Development?",opts:["To create large, monolithic projects","To deliver small, functional increments frequently","To document every process in detail","To follow a fixed plan from start to end"],a:1},
+  {l:"Lecture 4",q:"Agile evolved mainly to overcome the challenges of which model?",opts:["Spiral Model","Prototype Model","Waterfall Model","V-Model"],a:2},
+  {l:"Lecture 4",q:"Which of the following best describes Agile?",opts:["A rigid, step-by-step method","A flexible project management approach and mindset","A hardware design process","A document-heavy methodology"],a:1},
+  {l:"Lecture 4",q:"In Agile, projects are divided into smaller, manageable parts known as:",opts:["Components","Modules","Iterations","Sectors"],a:2},
+  {l:"Lecture 4",q:"Which of the following is a core value in Agile?",opts:["Contract negotiation over customer collaboration","Processes and tools over individuals and interactions","Working software over comprehensive documentation","Following a plan over responding to change"],a:2},
+  {l:"Lecture 4",q:"Which of the following is NOT an Agile principle?",opts:["Deliver working software early and continuously","Welcome changing requirements","Delay delivery until all requirements are finalized","Maintain a sustainable pace of development"],a:2},
+  {l:"Lecture 4",q:"What year marks the creation of the Agile Manifesto?",opts:["1990","1995","2001","2005"],a:2},
+  {l:"Lecture 4",q:"During which Agile phase is the software architecture and UI designed?",opts:["Requirement Gathering","Construction/Iteration","Design the Requirements","Feedback"],a:2},
+  {l:"Lecture 4",q:"Which phase of Agile involves writing code and integrating features?",opts:["Requirement Gathering","Construction / Iteration","Testing / Quality Assurance","Deployment"],a:1},
+  {l:"Lecture 4",q:"How long does a typical Agile iteration or sprint last?",opts:["1–4 weeks","2–6 months","6–12 months","1 year"],a:0},
+  {l:"Lecture 4",q:"The main purpose of the Agile 'Feedback' phase is to:",opts:["Begin new project planning","Collect customer feedback to improve the product","Document user manuals","Finalize contracts"],a:1},
+  {l:"Lecture 4",q:"Which testing type checks individual components in Agile?",opts:["Integration Testing","System Testing","Unit Testing","User Acceptance Testing"],a:2},
+  {l:"Lecture 4",q:"What is the purpose of the Deployment phase in Agile?",opts:["To plan future iterations","To release and deliver the product to end users","To prepare design diagrams","To collect requirements"],a:1},
+  {l:"Lecture 4",q:"Agile emphasizes delivering a working product at the end of:",opts:["The entire project","Each iteration","Every year","Every testing phase"],a:1},
+  {l:"Lecture 4",q:"Which of the following is NOT a characteristic of Agile?",opts:["Flexibility to change","Incremental progress","Heavy documentation","Continuous improvement"],a:2},
+  {l:"Lecture 4",q:"Agile promotes customer satisfaction by:",opts:["Reducing communication","Delivering software once at the end","Regular delivery and feedback integration","Ignoring late-stage changes"],a:2},
+  {l:"Lecture 4",q:"What is a major advantage of Agile over Waterfall?",opts:["It avoids customer interaction","It supports frequent changes","It removes testing entirely","It requires no planning"],a:1},
+  {l:"Lecture 4",q:"In Agile, continuous improvement is achieved through:",opts:["Strict adherence to plans","Regular feedback and iteration reviews","Avoiding code changes","Delaying customer input"],a:1},
+  {l:"Lecture 4",q:"The first step in the Agile SDLC is:",opts:["Construction / Iteration","Testing / Quality Assurance","Requirement Gathering","Deployment"],a:2},
+  {l:"Lecture 4",q:"Which companies use Agile practices as mentioned in the lecture?",opts:["Tesla, BMW, and HP","Facebook, Google, and Amazon","Oracle, IBM, and Intel","Cisco, Dell, and HP"],a:1},
+  {l:"Lecture 5",q:"'Simplicity' in Agile refers to:",opts:["Doing as many tasks as possible","Avoiding unnecessary work","Reducing collaboration","Skipping testing"],a:1},
+  {l:"Lecture 5",q:"Which principle supports continuous technical excellence?",opts:["Writing longer code","Avoiding refactoring","Focusing on good design","Reducing customer feedback"],a:2},
+  {l:"Lecture 5",q:"Agile promotes maintaining a constant pace among:",opts:["Only developers","Sponsors only","Users only","Sponsors, developers, and users"],a:3},
+  {l:"Lecture 5",q:"What does Agile consider the primary measure of progress?",opts:["Completed plans","Meeting deadlines","Working software","Accurate documentation"],a:2},
+  {l:"Lecture 5",q:"Agile Testing occurs:",opts:["After coding only","After deployment","During maintenance","Throughout the entire development cycle"],a:3},
+  {l:"Lecture 5",q:"The Agile value 'Individuals and Interactions' means:",opts:["Tools are more important","Documentation is most important","Avoid customer interactions","People are more important than processes and tools"],a:3},
+  {l:"Lecture 5",q:"Self-organizing teams lead to:",opts:["Poor design","Fixed plans","Better architectures and solutions","No communication"],a:2},
+  {l:"Lecture 5",q:"'Simplicity' in Agile means:",opts:["Doing more work","Skipping testing","Maximizing work not done","Avoiding collaboration"],a:2},
+  {l:"Lecture 5",q:"Agile teams should maintain what type of pace?",opts:["Fast and exhausting","Random pace","Sustainable pace","Slow pace"],a:2},
+  {l:"Lecture 5",q:"Which of the following is emphasized most in Agile?",opts:["Heavy documentation","Strict planning","Frequent delivery","Long development cycles"],a:2},
+  {l:"Lecture 6",q:"Which feature makes the Spiral Model considered a 'metamodel' of SDLC?",opts:["It uses fixed sequential phases","It incorporates elements from several SDLC models","It eliminates the need for risk analysis","It works only for small projects"],a:1},
+  {l:"Lecture 6",q:"In the Spiral Model, which quadrant focuses on identifying risks and evaluating alternatives?",opts:["Development & Testing","Objectives & Alternatives Definition","Risk Analysis & Prototyping","Customer Evaluation & Planning"],a:2},
+  {l:"Lecture 6",q:"Why are time and cost estimation difficult in the Spiral Model?",opts:["Lack of documentation","Minimal customer involvement","Unknown number of spirals at start","No testing in cycles"],a:2},
+  {l:"Lecture 6",q:"Why is the Spiral Model preferred for projects with evolving requirements?",opts:["Fixed cost control","Early prototypes","Minimal customer involvement","Reduced documentation"],a:1},
+  {l:"Lecture 6",q:"What key activity occurred in the second spiral of the e-commerce example?",opts:["Gathering basic requirements","Adding advanced features","Testing secure payments","Deploying final version"],a:2},
+  {l:"Lecture 6",q:"Which describes incremental prototyping?",opts:["Reuses one prototype","Divides system into modules","Always throwaway","Needs no planning"],a:1},
+  {l:"Lecture 6",q:"Which is NOT a disadvantage of the Spiral Model?",opts:["High documentation","Difficult estimation","Weak for large projects","Endless loops"],a:2},
+  {l:"Lecture 6",q:"Which prototyping type suits web development with HTML mock-ups?",opts:["Evolutionary","Throwaway","Extreme","Incremental"],a:2},
+  {l:"Lecture 6",q:"Purpose of Quick Design phase?",opts:["Final interface","Rough structure for prototype","Database schema","Replace user interviews"],a:1},
+  {l:"Lecture 6",q:"When is the Prototyping Model most suitable?",opts:["Fixed requirements","Minimal user interaction","Unclear/changing requirements","Low-risk projects"],a:2},
+  {l:"Lecture 6",q:"Why does evolutionary prototyping save time?",opts:["Removes feedback","Refines one prototype","No refinement","Less design"],a:1},
+  {l:"Lecture 6",q:"What occurs in Review & Evaluation quadrant?",opts:["Requirements gathering","Prototype building","Stakeholder assessment & planning","Internal testing"],a:2},
+  {l:"Lecture 6",q:"What is a prototyping risk?",opts:["Users misjudge prototype as final quality","Eliminates feedback","Prohibits requirement changes","Reduces communication"],a:0},
+  {l:"Lecture 6",q:"Least suitable model for low-budget heavy-documentation projects?",opts:["Waterfall","Spiral","Incremental","Prototype"],a:1},
+  {l:"Lecture 6",q:"Spiral Model is best for:",opts:["Simple projects","Low failure cost","High technical risks","No stakeholder input"],a:2},
+  {l:"Lecture 6",q:"Output of Build Prototype phase?",opts:["Final system","Low-level working model","Test plan","Training material"],a:1},
+  {l:"Lecture 6",q:"Biggest management challenge in Spiral Model?",opts:["Low customer interaction","Managing cycles + risk analysis","Coding before design","No prototypes"],a:1},
+  {l:"Lecture 6",q:"Which prototyping type needs early accurate planning?",opts:["Evolutionary","Incremental","Throwaway","Extreme"],a:1},
+  {l:"Lecture 6",q:"Which activity appears in every spiral loop?",opts:["Deployment","UI redesign","Risk analysis","DB restructuring"],a:2},
+  {l:"Lecture 6",q:"Shared advantage of Spiral & Prototyping Models?",opts:["Less customer involvement","Best for fixed requirements","Iterative refinement via feedback","No testing"],a:2}
+];
+
+let answered = 0, correct = 0, wrong = 0;
+
+function updateStats() {
+  document.getElementById('s-answered').textContent = answered;
+  document.getElementById('s-correct').textContent = correct;
+  document.getElementById('s-wrong').textContent = wrong;
+  const pct = Math.round((answered / questions.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = answered + ' / ' + questions.length;
+}
+
+function build() {
+  const container = document.getElementById('content');
+  container.innerHTML = '';
+  answered = 0; correct = 0; wrong = 0;
+  updateStats();
+
+  const groups = {};
+  questions.forEach((q, i) => {
+    if (!groups[q.l]) groups[q.l] = [];
+    groups[q.l].push({...q, idx: i});
+  });
+
+  Object.entries(groups).forEach(([lecture, qs]) => {
+    const section = document.createElement('div');
+    section.className = 'lecture-section';
+    const color = LECTURE_COLORS[lecture] || '#888';
+
+    const header = document.createElement('div');
+    header.className = 'lecture-header';
+    header.innerHTML = `
+      <div class="lecture-dot" style="background:${color}"></div>
+      <span class="lecture-name" style="color:${color}">${lecture}</span>
+      <span class="lecture-count">${qs.length} سؤال</span>
+    `;
+    section.appendChild(header);
+
+    qs.forEach((q, qi) => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.style.animationDelay = (qi * 0.015) + 's';
+      card.id = 'card-' + q.idx;
+
+      const optsHtml = q.opts.map((opt, oi) => `
+        <button class="opt-btn" onclick="answer(${q.idx},${oi},this)" id="opt-${q.idx}-${oi}">
+          <span class="opt-label">${LABELS[oi]}</span>
+          <span>${opt}</span>
+        </button>
+      `).join('');
+
+      card.innerHTML = `
+        <div class="q-num">سؤال ${q.idx + 1}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="options">${optsHtml}</div>
+        <div class="feedback" id="fb-${q.idx}"></div>
+      `;
+      section.appendChild(card);
+    });
+
+    container.appendChild(section);
+  });
+}
+
+function answer(qIdx, chosen, btn) {
+  const q = questions[qIdx];
+  const card = document.getElementById('card-' + qIdx);
+  const fb = document.getElementById('fb-' + qIdx);
+
+  for (let i = 0; i < 4; i++) {
+    const b = document.getElementById('opt-' + qIdx + '-' + i);
+    if (b) b.disabled = true;
+  }
+
+  answered++;
+
+  if (chosen === q.a) {
+    btn.classList.add('correct');
+    card.classList.add('answered-correct');
+    correct++;
+    fb.className = 'feedback ok';
+    fb.innerHTML = '<span class="fb-icon">✓</span> إجابة صحيحة!';
+  } else {
+    btn.classList.add('wrong');
+    card.classList.add('answered-wrong');
+    wrong++;
+    const correctBtn = document.getElementById('opt-' + qIdx + '-' + q.a);
+    if (correctBtn) correctBtn.classList.add('correct');
+    fb.className = 'feedback no';
+    fb.innerHTML = '<span class="fb-icon">✗</span> غلط — الإجابة الصح: <strong>' + LABELS[q.a] + ') ' + q.opts[q.a] + '</strong>';
+  }
+
+  updateStats();
+}
+
+function resetAll() {
+  if (confirm('إعادة تعيين كل الإجابات؟')) build();
+}
+
+build();
+</script>
+</body>
+</html>
